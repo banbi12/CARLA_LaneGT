@@ -1,0 +1,11 @@
+<section id="manualEditor">
+<h2>人工后处理 · 两点补线</h2>
+<p>选择“连接断线”后依次点选两个端点，同类线会合并成一个实例；“新增线段”依次点两个位置。两点之间为直线。选中误检后可删除，支持撤销和重做。centerline 保持只读。</p>
+<div class="tools"><label>工具 <select id="editMode"><option value="select">选择实例</option><option value="connect">连接断线（端点吸附）</option><option value="add">新增两点线段</option></select></label><label>补线类别 <select id="editClass"><option value="divider">divider</option><option value="boundary">boundary</option></select></label><button id="editCancel">取消选点 Esc</button><button id="editUndo">撤销</button><button id="editRedo">重做</button><button id="editDelete">删除选中实例</button></div>
+<p id="editStatus" role="status">等待本帧数据……</p>
+<div class="tools"><button id="zoomIn">放大 +</button><button id="zoomOut">缩小 −</button><button id="zoomReset">适合窗口</button><label><input id="editOriginal" type="checkbox">灰色叠加修改前几何</label><span>右键拖动画布平移；Ctrl＋滚轮缩放。连接工具只吸附所选类别的开放端点。</span></div>
+<div class="edit-grid"><div><canvas id="editBev" width="660" height="1260" aria-label="人工补线BEV，坐标单位米"></canvas><p id="editCoords"></p></div><div><label>修改后实例 <select id="editInstances" size="10"></select></label><p id="editDetails"></p><p>实时顶视叠加（包含人工修改）：</p><canvas id="editTopdown" width="1152" height="2048" aria-label="人工修改实时顶视叠加"></canvas></div></div>
+<p>修改自动保存在本浏览器，也请导出补线 JSON 备份。原有六相机投影、静态 BEV 和审核记录用于对照原始自动 GT；本工作区显示人工修改。修改后几何仍需审核。</p>
+<div class="tools"><button id="exportEdits">导出全部补线 JSON</button><label>导入补线 JSON <input id="importEdits" type="file" accept="application/json,.json"></label><button id="exportEditedGT">下载本帧修改后 GT JSON</button></div>
+<p>下载的修改后 GT 已包含补线几何。应用补线 JSON 的 CPU 工具会重新生成实际 fixed20/shift_v2、六相机投影及 BEV 图，写入新的结果目录。<a href="README.md#使用">操作说明</a></p><pre id="editImportResult"></pre>
+</section>

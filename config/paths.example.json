@@ -1,0 +1,16 @@
+{
+  "frame_manifest": "/path/to/frame_manifest",
+  "topdown_root": "/path/to/topdown_root",
+  "carla_python": "/path/to/carla/python",
+  "protected_output_roots": [],
+  "data_root": "/path/to/data_root",
+  "review60": "/path/to/review60",
+  "previous_editor": "/path/to/previous_editor",
+  "carla_root": "/path/to/carla_root",
+  "project_root": "/path/to/project_root",
+  "dataset_adapter_root": "/path/to/dataset_adapter_root",
+  "runtime_python": "/path/to/geometry/python",
+  "camera_metadata": "/path/to/camera_metadata",
+  "camera_images": "/path/to/camera_images",
+  "centerline_labels": "/path/to/centerline_labels"
+}

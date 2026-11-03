@@ -1,0 +1,5 @@
+/* Shared DXF engine for the Python command line, using exactly the browser parser. */
+'use strict';
+const C=require('../web/cad_core.js');let input='';
+process.stdin.setEncoding('utf8');process.stdin.on('data',b=>input+=b);
+process.stdin.on('end',()=>{try{const x=JSON.parse(input);let out;if(x.action==='export'){const ctx=C.context(x.meta,x.targets,x.operations,x.session_id);out={context:ctx,dxf:C.writeDXF(ctx)};}else if(x.action==='import'){const parsed=C.readDXF(x.dxf,x.context),op=C.operation(x.context,parsed,x.operation_id,x.dxf_sha256||'');out={summary:parsed.summary,patch:{schema:'maptrv2_gt_edit_patch_v1',dataset_id:x.context.dataset_id,manifest_sha256:x.context.manifest_sha256,coordinate_frame:x.context.coordinate_frame,exported_at:new Date().toISOString(),frames:{[x.context.token]:{base_gt_sha256:x.context.base_gt_sha256,operations:[...x.context.exported_operations,op]}}}};}else throw Error('Unknown CAD bridge action');process.stdout.write(JSON.stringify(out));}catch(e){process.stderr.write(String(e)+'\n');process.exitCode=1;}});

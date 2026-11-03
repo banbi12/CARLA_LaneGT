@@ -1,0 +1,9 @@
+<section id="cadEditor"><h2>CAD 往返后处理</h2>
+<p>导出当前帧的 DXF 与配套 JSON，包含本页面已有的补线。解压 ZIP 后用 CAD 编辑 drawing.dxf；若保存为 DWG，请再另存为 ASCII DXF 导回。单位保持米，不移动或删除参考框与参考原点。连接后使用 PEDIT/JOIN 合成一条连续多段线；一条 CAD 实体对应一个 GT 实例。</p>
+<p>图层：GT_DIVIDER（蓝）、GT_BOUNDARY（黄）、GT_PED_CROSSING（紫）。centerline 与白色范围框是锁定参考。支持直线、多段线、圆弧、椭圆及控制点样条；圆弧/曲线展开为细点列，目标误差 0.01m。块请先炸开，斑马线保留闭合轮廓。</p>
+<div class="tools"><button id="exportCAD">导出本帧 CAD 包（ZIP）</button><a href="CAD_GUIDE.md">CAD 操作与命令行说明</a></div>
+<div class="tools"><label>CAD 修改后的 DXF <input id="cadDXF" type="file" accept=".dxf"></label><label>配套 context.json <input id="cadContext" type="file" accept=".json,application/json"></label><button id="previewCAD">预览 CAD 导回</button></div>
+<p id="cadStatus" role="status">导回会先预览，确认后才应用到本帧。centerline 保持原样。</p><pre id="cadSummary"></pre>
+<canvas id="cadPreview" width="660" height="1260" hidden aria-label="CAD导回预览，灰色为导出时几何，彩色为导回几何"></canvas>
+<div class="tools"><label><input id="cadAllowEmpty" type="checkbox">确认清空本帧全部 divider / boundary / 斑马线（仅在导回为空时需要）</label><button id="applyCAD" disabled>应用 CAD 导回（可撤销）</button><button id="downloadCADPatch" disabled>下载 CAD 导回补线 JSON</button></div>
+<p>应用后可继续在上方画布编辑、撤销或导出修改后 GT；配套 CPU 工具仍负责生成真实 fixed20/shift_v2 和新的投影图。若导出 CAD 后又改过本帧，请先保留新修改，再基于最新状态重新导出。</p></section>

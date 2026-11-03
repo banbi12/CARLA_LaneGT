@@ -1,0 +1,9 @@
+{
+  "schema": "pinned_xodr_connection_reference_v1",
+  "asset": "xodr_connection_prior.json",
+  "sha256": "630d628e0606c0575b0d7a6b5f8401bbadb3ebb2b5bc1a105cc29f1eea8908f4",
+  "xodr_sha256": "5d883b799f634030af92be1e9d79d107845540ba04338e8c60e095be1aef7be7",
+  "source_world_file_sha256": "bc36aeff5fad5552a9d2eade9ad4fd3e1f2b2384c9b2298fccc3693af5689036",
+  "features": 209,
+  "approved_for_training": false
+}

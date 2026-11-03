@@ -1,0 +1,53 @@
+{
+  "engine": "xodr_only_legacy_v1",
+  "upstream": "Historical MapTRv2 collector, final M XODR map pipeline",
+  "files": [
+    {
+      "source": "lanegt/lanelines.py",
+      "source_sha256": "59ba73e23821e74856ab32df3acefca368d959dbaed1e7aab030f6f71e710ecd",
+      "destination": "src/xodr_only/code/xodrgt/lanelines.py",
+      "copy": "byte-identical"
+    },
+    {
+      "source": "deduplicate_dividers.py",
+      "source_sha256": "042bc78e5cca44bdfc0e93bca65cd5e330dfe7d0ff38b893c2e507ec00b08f64",
+      "destination": "src/xodr_only/code/xodrgt/deduplicate_dividers.py",
+      "copy": "byte-identical"
+    },
+    {
+      "source": "lanegt/surface.py",
+      "source_sha256": "2eafa957e7322bcf38e3a152c18148ddbf76d22915e8b41d057ce969a7507b6f",
+      "destination": "src/xodr_only/code/xodrgt/surface.py",
+      "original_function_AST_sha256": {
+        "Strip": "e3a5e89892558098c6e29076938db3e359f653e4a5882337a81674ec7a266d12",
+        "_strip_polygon": "b2a5fcf3926b82176d374368a4bf811bc3f1612789da0ed319c4cdd2b9e94e5b"
+      }
+    },
+    {
+      "source": "lanegt/extract.py",
+      "source_sha256": "d0e2ba78ca20630a1615f0edcddf5089e150942441c5bef6811431f46e07470e",
+      "destination": "src/xodr_only/code/xodrgt/crosswalks.py",
+      "original_function_AST_sha256": {
+        "crosswalks_from_xodr": "ec5afa47e30303ba8bb8448abdbf90a626cc81c832040b3b09c927642189fce9"
+      }
+    },
+    {
+      "source": "build_maptr_candidate.py",
+      "source_sha256": "5c1f1febc730e6ddabca3ccfd2be48aff3525dbfd8f3a9316e980737432d6e1a",
+      "destination": "src/xodr_only/code/xodrgt/legacy_map.py",
+      "original_function_AST_sha256": {
+        "shoulder_record": "050715aa3fe734db6f4e120b745f2b9e3ba3c22726884da1f2fb99e75e03fe0e",
+        "build_strips": "e653c0c9cc6c95f850736289e88d39c64e6d3bb0a38c027b36a38c462d34b1e9",
+        "polygon_parts": "cd29036d321b3bf1c70887e4a964f0317e73a7c08dad820ba552b16ded6651a4",
+        "make_surface": "2e1f4d7296e01af41f7385aa450238b3e766639419fbb4e026affec3d2595412",
+        "precision_audit": "ccce70906f8f1e3e7a1ee4d777a161093d33aeb942096417fe7e1010c7329259",
+        "annotation_boundaries": "59f81f710681363ddf5c758de7be4fd9de0828897e6e4d6ab905f49a5a2712bf",
+        "selected_dividers": "db0efdc82523c32a20a7edf53f04d44bccf69833a56a4a9b580e83d153237dc4"
+      }
+    }
+  ],
+  "shared_parser": "src/extraction/code/semgt/legacy_xodr.py",
+  "shared_centerlines": "src/extraction/code/semgt/legacy_centerline_pipeline.py",
+  "adaptation": "Original geometry functions preserved; separate IO, complete-pose and sampler interface; no semantic extraction calls or archive runtime imports.",
+  "AST_digest_python_version": "3.10.12"
+}

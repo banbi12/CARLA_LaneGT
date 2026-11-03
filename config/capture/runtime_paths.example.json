@@ -1,0 +1,4 @@
+{
+  "carla_root": "/path/to/carla",
+  "carla_python": "/path/to/carla/python"
+}

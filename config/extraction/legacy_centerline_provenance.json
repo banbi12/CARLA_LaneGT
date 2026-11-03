@@ -1,0 +1,28 @@
+{
+  "schema": "legacy_centerline_migration_v1",
+  "source_files": {
+    "build_centerline_candidate.py": "a7d04831469790528bcfda1299b417b146e22cea94659a3de97b0015685b6fd4",
+    "lanegt/xodr.py": "44731eb83d2574776d7ba4bfaacee00fbeaf921ea5affc6a2cabe0e50dc56d73"
+  },
+  "migrated_functions": [
+    "parse_topology",
+    "selected_lanes",
+    "_line_parts",
+    "deduplicate_centerlines",
+    "build_edges"
+  ],
+  "adaptations": [
+    "Removed historical IO/renderer imports and fixed PATCH; use existing configurable BEV adapter",
+    "Preserved extracted centerline/topology function ASTs",
+    "Used np.trapz for NumPy 1.x compatibility; same trapezoidal rule",
+    "Normalized provenance naming to historic mapgt lane: identity before deduplication",
+    "Edited legacy parser documentation without changing coordinate formulas"
+  ],
+  "source_function_AST_sha256": {
+    "parse_topology": "d0e80f0b224bb7bf1af0924e8d21de1680e486c278173a73440279eca6ea4d65",
+    "selected_lanes": "367007b1a0626fd403431f22c3789fb8f0bcfc27cf94606d719277fad4553983",
+    "_line_parts": "77693dbd85470a75ffd9359d4811fee26b0447751e744868f1ccfb7c69b9d7d9",
+    "deduplicate_centerlines": "a4b2d9ca4811986682b2c9d0183fff9981b922c2ff42c4d9972967ad34dc9e6d",
+    "build_edges": "5c55c2ee5dc742f179ae91ed55022405c8fadc45130124c12ba1aab26bd26943"
+  }
+}

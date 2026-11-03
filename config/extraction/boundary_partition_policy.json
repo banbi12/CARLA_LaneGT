@@ -1,0 +1,17 @@
+{
+  "version": "boundary_partition_trial_v1",
+  "name": "geometry",
+  "feature_split": true,
+  "max_length_m": null,
+  "sample_step_m": 0.25,
+  "tangent_window_m": 2.0,
+  "turn_threshold_deg": 25.0,
+  "helper_simplify_m": 0.03,
+  "sharp_corner_deg": 35.0,
+  "minimum_world_cut_separation_m": 0.5,
+  "minimum_local_fragment_m": 0.5,
+  "geometry_output": "original_polyline_substrings",
+  "raw_source_unchanged": true,
+  "approved_for_release": false,
+  "sha256": "a5363b17ab90de9c531a53c09bfd88923a74162f91dede84b6cc89bd4fce7e8a"
+}

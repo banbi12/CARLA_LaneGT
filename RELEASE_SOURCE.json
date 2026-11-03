@@ -1,0 +1,63 @@
+{
+  "release": "1.0.0",
+  "algorithm": "semantic_primary_v4_2_connection_guards",
+  "source_files": {
+    "src/extraction/code/cli.py": "de94222b4fb0243347d689816e6b31548efba2292b97369ea04823404e8f9a88",
+    "src/extraction/code/small_gaps.py": "2750b7155f57e5ba94f4c3e4fff93673e7c6ec7548a1f129f0de1da15420ddfc",
+    "src/extraction/code/boundary_core.py": "b71cb34be2fe6017c9240c53c6c2de994548cae03323179fccb5d2e5e682d3c8",
+    "src/extraction/code/partition.py": "f0f701a7be2a87288fdccdc0dfd6835d949989725c5b0aeef865a3275008df5f",
+    "src/extraction/code/mapgt/coordinates.py": "6cab83644da06fa6576b57bcf7116923fac44b769ddc6359f14860c5250b8b37",
+    "src/extraction/code/mapgt/__init__.py": "885bd9c36622fe8028b72ad00f2ee61ff4a091768b85e824d0466c36330e06df",
+    "src/extraction/code/mapgt/world.py": "9c2c3efef35ca8b546f81d6fae22a2face0dbc8318c148a697aaf2cd98d9bd25",
+    "src/extraction/code/mapgt/common.py": "8e4472e07a3e47e4f0ccab49f1a5a204240befbc044a783ff88a554aa4f79ab4",
+    "src/extraction/code/semgt/crosswalks.py": "3a060cc1ee29281e37bc8149b96e3ec044667d98868b5f924d8198fbc8fab0a6",
+    "src/extraction/code/semgt/hints.py": "dbb8dfc9f84e5607bcb803a1df7bee3fcab2fad4741b957bc9254a1e92977f8d",
+    "src/extraction/code/semgt/runner.py": "09083e954e1fbf49a5205a7a69d4d56f3c8c6db3bc4effb97631d66fa097c715",
+    "src/extraction/code/semgt/__init__.py": "904e7b9b94671cdb545570b776bd747a0717eed077d311f1c9aebf2c71015be8",
+    "src/extraction/code/semgt/collection.py": "1d32d97973a64f3a1591fd6c8067ead0caeb36c2764fe1cf052be53c113c3e4d",
+    "src/extraction/code/semgt/topology.py": "8a435a0b95cb1416a8e5473a849095432a7341de1a40460258af893fe6841895",
+    "src/extraction/code/semgt/sampling.py": "bb7da15979c1650fa96d0c3244593935944721bd621a3ea7003a809831c0535d",
+    "src/extraction/code/semgt/stripes.py": "153c7637a15857ec746cbbf7f20302b7679035d0225693aab43953c2974c939c",
+    "src/extraction/code/semgt/io.py": "33b6fed7d7edb3adcab512e5d8cc8417d65fad2d9db13a311e95dbfa6ce86ed9",
+    "src/extraction/code/semgt/engine.py": "da6b36e92528dd0f716afd99f3194a60c892807c7a4c4ebf215e9a214e0ce245",
+    "src/extraction/code/semgt/geometry.py": "12eaaab95e7c214726aed8d4a6b3b2308b8c2f52baa53f386a66aa408e8c0a1e",
+    "src/extraction/code/semgt/observations.py": "57a04a5bd0c04b03334e6136442ed7a0c773a81215bbc636c1faff535bfb4488",
+    "src/extraction/code/semgt/policy.py": "e56046d91f2a95f0cf4ab25ad0d39386544635a7f1aac83ff22f6ecfbec50ec2",
+    "src/extraction/code/semgt/connection_guard.py": "1659d9f87ca7d53dc67f6ead04d46ca4196ea5f8e983d7178b7e24b26bf5ff52",
+    "src/review/code/render_review.py": "c10d923e9486c5108c3c7d7459358a1ff9a86c246c5e293215a7de96d0a21f65",
+    "src/review/code/prepare_review.py": "839f2dba1790195666b3b7a72041eef8eca0d50c830c8edda8a4e5bcad450d96",
+    "src/review/code/check_dataset.py": "0aaa314226bba1d39e9733a1b7cb93bd2bacd72c5d1265b3734f7ef24e04f090",
+    "src/adapters/carla_map_dataset.py": "89ef7c31440218f924a949ed2196b2d0138e0f1019589fd26d6ed030abeadf84",
+    "src/postprocessing/code/edit_model.py": "281e12674880b7962363668fc63bc7158bef31c12b370978fe49865207aaf1d0",
+    "src/postprocessing/code/project.py": "9502bf2faf8e26d6a5bbc279b4da158c64055cdc856ccd04b7ea65ca6fb2b4bd",
+    "src/postprocessing/code/postprocess.py": "fdcaf6380963d3be61b0f919d3dc7c9c5ab64f58bddb42d9990cc525f244bf30",
+    "src/postprocessing/code/workspace.py": "6a03ec72862d1cce2d45bfa0e0a8139255952ab79ebe4f9ba57e423e70e2f79a",
+    "src/postprocessing/code/cad_geometry.py": "dd2edb2470a1e2014607993352d39b33516d6cfc866de76cf2f8bd36a0fe10de",
+    "src/postprocessing/code/cad.py": "a34b5ec57f28893867b566d942b2dc83ed22a4366acbacb503ad58f3a6c69121",
+    "src/capture/code/resource_guard.py": "fb0c061190ee097d82d942379e1e5bc66fe9b465a8d5ade00c4e913ce478eb13",
+    "src/capture/code/capture_selective.py": "2c9c968e6ab18e819591414c5815112a782789b4d1b44f621c0ea46ed4884627",
+    "src/capture/code/legacy_supervisor.py": "d693ba9fa2f5aa4382d9ee8a4d0d10eaa391e9e799bdcc68aea96118d635e579",
+    "src/capture/code/run_topdown.py": "a0e1ce2f6f27a4aeea9911414e5f137d0e514824e38eb693282014b7c16d587a",
+    "src/capture/code/base/capture_core.py": "9ec6d325c5809618adb0f74cb7433a2f41d915b2b9e9f7dc23672062c68d8263",
+    "src/capture/code/base/frame_bundle.py": "953041f8d9624cb73f4ecff029f6489eb4668c335d4a6997e318b1fa25fd4406",
+    "src/capture/code/mapgt/coordinates.py": "6cab83644da06fa6576b57bcf7116923fac44b769ddc6359f14860c5250b8b37",
+    "src/capture/code/mapgt/__init__.py": "885bd9c36622fe8028b72ad00f2ee61ff4a091768b85e824d0466c36330e06df",
+    "src/capture/code/mapgt/common.py": "8e4472e07a3e47e4f0ccab49f1a5a204240befbc044a783ff88a554aa4f79ab4"
+  },
+  "changes": "Portable runtime and configuration; optional original XODR centerlines and configurable BEV. Development tests and verification artifacts are excluded from the public source.",
+  "restored_centerline_pipeline": {
+    "engine": "legacy_xodr_lane_geometry_v1",
+    "provenance": "config/extraction/legacy_centerline_provenance.json",
+    "migration": "original XODR lane geometry, partial-overlap deduplication and topology functions; no archived runtime imports"
+  },
+  "additional_xodr_baseline": {
+    "engine": "xodr_only_legacy_v1",
+    "provenance": "config/xodr_only/provenance.json",
+    "geometry_algorithms_preserved": true
+  },
+  "generic_GT_interface": {
+    "schema": "lanegt_geometry_v1",
+    "default_model_dependency": false,
+    "MapTRv2_adapter": "optional"
+  }
+}

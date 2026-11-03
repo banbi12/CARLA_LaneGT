@@ -1,0 +1,17 @@
+{
+  "map": "Verified CARLA_0.9.16 Town10 (Town10HD / Town10HD_Opt; matching resource fingerprints required)",
+  "files": {
+    "maps/xodr_crosswalk_world.json": "46c6862bf5fa6365a3c498eb4ec60f15c1c2f5031d4c9e8e1920ef51c0642e5c",
+    "maps/xodr_connection_prior.json": "630d628e0606c0575b0d7a6b5f8401bbadb3ebb2b5bc1a105cc29f1eea8908f4",
+    "capture/selective_occluder_allowlist.json": "6478e7b88933d749dc977a47bc1f0b20929e7f8cd49cb7c24074c3dd9b0f5f5e",
+    "capture/server_Town10HD.xodr": "5d883b799f634030af92be1e9d79d107845540ba04338e8c60e095be1aef7be7",
+    "capture/calibration_case.json": "298deb9cbb730d9d9ab42188eabcc00f0ef3bd2bb507f68c442449443ccd1ce0"
+  },
+  "carla_version": "0.9.16",
+  "validated_maps": [
+    "Town10HD",
+    "Town10HD_Opt"
+  ],
+  "capture_map": "Town10HD_Opt",
+  "other_versions_and_towns": "not_validated_in_this_release"
+}

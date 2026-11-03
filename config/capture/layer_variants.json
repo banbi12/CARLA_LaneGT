@@ -1,0 +1,14 @@
+[
+  {
+    "name": "C_more_layers",
+    "extra_unloaded_layers": [
+      "StreetLights",
+      "ParkedVehicles",
+      "Particles",
+      "Props",
+      "Buildings",
+      "Walls"
+    ],
+    "description": "\u518d\u5378\u8f7dProps\u3001\u5efa\u7b51\u4e0e\u5899\u5c42\uff1bGround/Decals\u4fdd\u6301"
+  }
+]

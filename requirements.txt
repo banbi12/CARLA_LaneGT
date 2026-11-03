@@ -1,0 +1,7 @@
+# CPU 几何处理依赖；正式采样使用单独配置的 MapTRv2 环境。
+numpy==1.23.5
+scipy==1.10.1
+shapely==1.8.5.post1
+opencv-python-headless==4.8.1.78
+Pillow==10.4.0
+scikit-image==0.21.0
