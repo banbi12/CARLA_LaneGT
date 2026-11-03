@@ -24,7 +24,7 @@
       "sha256": "c8b074a6f5aa7f8105c2cf0772a997691678b75eaa2d4476a2c05f7fb21a8042"
     },
     "README.md": {
-      "sha256": "85510de384ac5ea0ec8d81181a5dfa2d23bc9aef02926282561315e638418238"
+      "sha256": "6dc6a0b4d1d71dbb2f8376690ca569e34095c7c70fcae2f578134c4abe23e845"
     },
     "RELEASE_SOURCE.json": {
       "sha256": "1806f46320a412a02c0fe9cc5cd45d51f0a36d2971344b6abc131891ad3cdcd4"
@@ -436,6 +436,9 @@
     },
     "docs/images/11d-gallery-cad.png": {
       "sha256": "0af05ef4272046e091fd35e17bed14235108ccebf2be3496260d524e5cd361ea"
+    },
+    "README-EN.md": {
+      "sha256": "8e5be3f2420c5329ff7cb140ad7814aa3b47f0bd1a61f96a2c045736e5ee0ce1"
     }
   },
   "excludes": [
