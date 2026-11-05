@@ -2,22 +2,28 @@
 
 默认流程使用通用完整几何 GT，无需 MapTRv2；`--sampler maptr`、`export-maptr` 和 `dataset-check` 才启用模型适配。配置与完整步骤以[通用 GT 指南](GENERIC_GT.md)为准。
 
-项目提供两套独立入口：`extract` 使用 V4.2 semantic 主导方案；`xodr-only` 复用基于 XODR 的几何提取函数。两方案共用通用完整几何、审核、人工后处理及可选模型适配接口。XODR 指 OpenDRIVE 地图文件。
+项目提供两套独立入口：`extract` 使用 V5 B 方案（XODR V4.1 divider base + semantic 补充）；`xodr-only` 复用基于 XODR 的几何提取函数。两方案共用通用完整几何、审核、人工后处理及可选模型适配接口。XODR 指 OpenDRIVE 地图文件。
 
 ## 旧代码复用范围
 
 | 输出 | XODR-only 的处理 |
 |---|---|
-| divider | 原版 roadMark 分段和几何；可行驶面向内缩 0.05 米后，线长至少 80% 位于内部才保留；再按旧版局部重叠算法去重、保留全部来源 |
+| divider | 原版 roadMark 分段和几何；可行驶面向内缩 0.05 米后，线长至少 80% 位于内部才保留；对被整段拒绝的线再按 surface 裁剪恢复有效部分；按旧版局部重叠算法去重、保留全部来源；去重后优先按 XODR road/lane successor 与 junction laneLink 做拓扑连接，并保留同 road/同 lane 局部连接和极小 gap 几何回退 |
 | boundary | 原版可行驶条带构造、0.005 米精度网格、并集及内外环；小于 5 平方米的非横道关联孔洞按原规则处理；可选移除已审核的非物理封口边 |
 | ped_crossing | 原版 XODR crosswalk 对象轮廓 |
 | centerline | `none` / `generate` / `provided`，复用项目已有原版中心线模块 |
 
 默认条带采样间隔 0.5 米、shoulder 宽度阈值 1.5 米。完整 roadMark 区间表示逻辑 divider，broken 标线不逐条绘制物理短划；双线 roadMark 复用单条车道边界曲线，默认不会生成两条独立黄线。不在没有 roadMark 来源的路口补造 divider。
 
-复用模块放在 `src/xodr_only/code/xodrgt/`。车道标线和 divider 去重文件按原文件复制；条带、表面、横道等所需函数抽出后保持函数体不变。原文件摘要和函数 AST 摘要见 `config/xodr_only/provenance.json`；AST 摘要的 Python 版本同时记录，跨版本应在同一解释器中解析两份源码再比较。原版 XODR 解析器和中心线库直接导入现有模块，不复制第二份，不运行 semantic 观测或补线函数，也不依赖历史归档路径。
+V3 在去重前增加 `recover_rejected`：对被 `selected_dividers` 整段拒绝的线，用 `surface.buffer(-0.01)` 裁剪，保留长度至少 0.5m 的部分，并记录 `original_interior_fraction` 和 `recovered_from_rejected`。这主要用于路口/边角处内部占比不足 80% 的真实标线。
+
+V4.1 的 `stitch_dividers` 使用分层连接：优先 XODR 拓扑（road predecessor/successor、lane predecessor/successor、junction connection/laneLink），其次同 road/同 lane 的局部 s 连续，最后只对 ≤0.5m 的极小 gap 使用几何回退。几何切向、横向、可行驶面和第三条线仍做校验。合并后保留两侧 `source_refs`、`stitch_components`、`stitch_topology` 和 `stitch_evidence`。它不使用 semantic 观测，也不等同于 V4.2 的 `connect_dashes`。
+
+复用模块放在 `src/xodr_only/code/xodrgt/`。车道标线和 divider 去重文件按原文件复制；条带、表面、横道等所需函数抽出后保持函数体不变。原文件摘要和函数 AST 摘要见 `config/xodr_only/provenance.json`；AST 摘要的 Python 版本同时记录，跨版本应在同一解释器中解析两份源码再比较。原版 XODR 解析器和中心线库直接导入现有模块，不复制第二份，不运行 semantic 观测或 semantic 补线函数，也不依赖历史归档路径。`stitch_dividers.py` 是本轮新增的 XODR-only 专用地图几何阶段，不是旧版代码复制。
 
 ## 世界生成、通用运行与可选模型环境
+
+当前 XODR-only 世界生成器版本为 `xodr_only_legacy_v41_topology_local_stitched`；旧版 v1/v2/v3/v4 世界缓存没有完整恢复/拓扑/局部连接记录，会被拒绝，需要重新生成。
 
 世界生成单独使用 Shapely 2 的 `set_precision`（requirements-xodr.txt）；逐帧通用提取/审核使用 requirements.txt 的几何环境。MapTRv2 仅是额外的可选采样环境，不是运行基线的前提。环境按解释器分进程，**不要用下面的依赖覆盖现有 MapTRv2 环境**。
 

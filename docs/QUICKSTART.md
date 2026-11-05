@@ -79,7 +79,21 @@ python run.py postprocess \
 
 ## 7. XODR-only 与同帧对照
 
-旧版方案通过 `run.py xodr-only` 独立运行，现有 `extract` 行为保持。准备世界缓存后可生成同帧结果：
+XODR-only V4.1 通过 `run.py xodr-only` 独立运行。准备世界缓存后可生成同帧结果：
+
+V4.2 B 的 divider base 依赖 `assets/maps/xodr_connection_prior_v41.json`。该文件由 V4.1 世界缓存生成；首次使用或资源变化后先执行：
+
+```bash
+python tools/generate_xodr_world.py --xodr assets/capture/server_Town10HD.xodr \
+  --output /data/lanegt/xodr_world.json
+python tools/build_xodr_connection_reference.py \
+  --world /data/lanegt/xodr_world.json \
+  --xodr assets/capture/server_Town10HD.xodr \
+  --output assets/maps/xodr_connection_prior_v41.json \
+  --pin config/extraction/connection_prior_v41.json
+```
+
+世界生成的几何环境和资源要求见 [XODR-only 指南](XODR_ONLY.md)。
 
 ```bash
 python run.py xodr-only --selection selection.json --topdown-only --centerline generate \

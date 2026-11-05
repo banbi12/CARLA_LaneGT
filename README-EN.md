@@ -21,8 +21,8 @@ These classes are not tied to MapTRv2. The current release provides an optional 
 
 | Entry | Scheme |
 |---|---|
-| `python run.py extract` | Default V4.2 semantic-observation-led extraction. Actual markings and road edges come from top-down observations; XODR provides crosswalks, optional centerlines, and limited connection priors. |
-| `python run.py xodr-only` | XODR-only map baseline built from roadMark, drivable-surface union, and object outlines. It does not read RGB, semantic, or depth. |
+| `python run.py extract` | Default V4.2 B hybrid extraction. Divider uses the XODR V4.1 stitched base with semantic supplements; boundary, crosswalks, and centerlines keep their observation/XODR sources. |
+| `python run.py xodr-only` | XODR-only map baseline built from roadMark, drivable-surface union, and object outlines; V4.1 adds rejected-line recovery plus topology, same-road local, and ≤0.5 m geometric stitching. It does not read RGB, semantic, or depth. |
 
 Both schemes share full poses, BEV range, complete geometry, optional model sampling, and the review/editing interface. The optional `compare` command renders same-frame BEV comparisons.
 
@@ -103,7 +103,7 @@ Detailed documentation is currently in Chinese:
 | [Output format](docs/OUTPUTS.md) | Complete geometry, sampling NPZ, gallery, edits |
 | [Configuration](docs/CONFIGURATION.md) | Path fields, resource import, directory protection |
 | [Parameters](docs/PARAMETERS.md) | Current values, actual locations, validation and re-run impact |
-| [XODR-only](docs/XODR_ONLY.md) | Legacy map baseline and same-frame comparison |
+| [XODR-only](docs/XODR_ONLY.md) | V4.1 recovery/stitching, baseline, and same-frame comparison |
 | [Capture](docs/CAPTURE.md) | Top-down reference capture, sync, occlusion removal |
 | [Postprocessing](docs/POSTPROCESSING.md) | Page patching, audit export, applying edits |
 | [CAD round-trip](docs/CAD_GUIDE.md) | ASCII DXF layers, import/export, command line |
@@ -112,6 +112,6 @@ Detailed documentation is currently in Chinese:
 
 ## Status and license
 
-- Software version: `1.0.0`; algorithm version: V4.2.
-- Release: https://github.com/banbi12/CARLA_LaneGT/releases/tag/v1.0.0
+- Software version: `1.1.0`; algorithm versions: V4.2 B (semantic hybrid) and V4.1 (XODR-only).
+- Release: https://github.com/banbi12/CARLA_LaneGT/releases/tag/v1.1.0
 - Code: MIT. Third-party code, maps, data, and assets keep their own licenses; see `LICENSES/` and `THIRD_PARTY_NOTICES.md`.

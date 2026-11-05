@@ -25,6 +25,18 @@ DEFAULT = dict(
     dash_xodr_endpoint_distance_m=.6, dash_xodr_endpoint_angle_deg=25.,
     dash_xodr_endpoint_margin_m=.2, dash_xodr_bridge_max_deviation_m=1.25,
     dash_xodr_bad_run_m=.5,
+    connection_xodr_required_gap_m=6.,connection_xodr_route_geometry=True,
+    connection_xodr_route_max_length_factor=2.,
+    divider_base_mode='xodr_v41',divider_base_min_length_m=.35,
+    divider_base_min_supplement_m=.5,divider_base_coverage_m=.20,
+    divider_base_duplicate_coverage=.90,divider_base_supplement_coverage=.10,
+    divider_base_parallel_m=.35,divider_base_parallel_fraction=.80,
+    divider_base_double_yellow_m=.50,divider_base_extension_m=1.,
+    divider_base_smooth_enabled=True,divider_base_smooth_max_gap_m=2.,
+    divider_base_smooth_min_gap_m=.02,divider_base_smooth_max_curve_ratio=2.,
+    divider_base_smooth_tangent_dot=.20,divider_base_merge_endpoint_m=.10,
+    boundary_smooth_enabled=True,boundary_smooth_max_gap_m=1.5,
+    boundary_smooth_min_tangent_dot=.20,boundary_smooth_max_curve_ratio=1.5,
 )
 
 def checked(overrides=None):
@@ -42,4 +54,16 @@ def checked(overrides=None):
         raise ValueError('Only conditional straight gaps may extend to 9m')
     if not 0 < policy['dash_straight_max_angle_deg'] <= 10 or not 0 < policy['dash_straight_max_lateral_m'] <= .3:
         raise ValueError('Invalid conservative straight-connection geometry')
+    if not 0 <= policy['connection_xodr_required_gap_m'] < policy['dash_max_gap_m']:
+        raise ValueError('Invalid XODR route-required gap')
+    if policy['connection_xodr_route_max_length_factor'] < 1:
+        raise ValueError('Invalid XODR route length factor')
+    if policy['divider_base_mode'] not in ('semantic','xodr_v41'):
+        raise ValueError('Invalid divider base mode')
+    if not .35 < policy['boundary_smooth_max_gap_m'] <= 2.:
+        raise ValueError('Invalid boundary smooth gap')
+    if not 0 <= policy['boundary_smooth_min_tangent_dot'] <= 1:
+        raise ValueError('Invalid boundary smooth tangent threshold')
+    if not 1 <= policy['boundary_smooth_max_curve_ratio'] <= 3:
+        raise ValueError('Invalid boundary smooth curve ratio')
     return policy

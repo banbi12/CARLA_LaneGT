@@ -4,7 +4,7 @@
 
 CARLA LaneGT 是面向 CARLA 场景的道路矢量 GT 生成与修正工具。项目源于 MapTRv2 微调数据准备中发现的 GT 断线、几何偏移以及与 CARLA 实际渲染不一致等问题；进一步排查发现，部分问题与 XODR 几何和实际渲染之间的差异有关。项目结合匹配地图的顶视 RGB、语义 ID 图、深度数组及 XODR 辅助信息，按 GT 类型采用实际观测或地图几何提取和修正道路标注。当前支持四类 GT：`divider`（车道分隔线，支持双黄线合并中线与虚线逻辑连接）、`boundary`（道路与人行道边界）、`ped_crossing`（人行横道轮廓）和可选 `centerline`（车道中心线）。这些 GT 类型本身不限定于 MapTRv2；项目目前提供 MapTRv2 采样适配接口，内部几何结果也可作为后续适配其他矢量地图感知模型的基础。工具还提供可选的六相机投影与鸟瞰图（BEV）审核页面，并支持页面补线、审核记录导出和 CAD DXF 往返编辑。GT 提取和采样在 CPU 上执行；顶视参考采集需要 CARLA 与 GPU。
 
-算法版本为 V4.2，软件版本为 1.0.0。**目前仅在 CARLA 0.9.16 的 Town10HD/Opt 上完成验证；其他城镇和版本尚未验证。** 默认输出通用完整几何。
+算法版本为 V4.2 B（XODR V4.1 divider base + semantic 补充）/ V4.1（XODR-only），软件版本为 1.1.0。**目前仅在 CARLA 0.9.16 的 Town10HD/Opt 上完成验证；其他城镇和版本尚未验证。** 默认输出通用完整几何。
 
 采集数据不必来自 nuCarla。只需按[通用顶视接口](docs/TOPDOWN_INPUT.md)提供同步 RGB、语义 ID、深度、标定与完整 BEV 变换，并覆盖请求的 BEV 范围。可用 `tools/prepare_topdown.py` 从参考目录生成清单，无需 nuCarla 元数据表。
 
@@ -22,8 +22,8 @@ CARLA LaneGT 是面向 CARLA 场景的道路矢量 GT 生成与修正工具。�
 
 | 入口 | 方案与用途 |
 |---|---|
-| `python run.py extract` | 当前 V4.2 semantic 主导提取，默认方案；实际标线与道路边缘来自顶视观测，XODR 提供横道、可选中心线和有限连接辅助 |
-| `python run.py xodr-only` | 复用非 semantic 几何提取代码，以 XODR roadMark、可行驶面并集和对象轮廓生成几何，作为地图基线 |
+| `python run.py extract` | 当前 V4.2 B hybrid 提取，默认方案；divider 以 XODR V4.1 base 为主、semantic 补充，boundary/ped/centerline 仍按观测和 XODR 轮廓生成 |
+| `python run.py xodr-only` | 复用非 semantic 几何提取代码，以 XODR roadMark、可行驶面并集和对象轮廓生成几何；V4.1 增加被拒线恢复与拓扑/同路局部/≤0.5m 几何连接 |
 
 两个方案共用完整位姿、BEV、通用完整几何、可选模型采样和人工后处理接口。两套核心几何算法分别保留；不需要图像即可生成 XODR-only 几何，图册和相机投影另需匹配的图像与标定。[XODR-only 操作与方法对比](docs/XODR_ONLY.md)说明独立几何环境、可选地图几何修正和同帧对照命令。
 
@@ -109,7 +109,7 @@ python run.py review --source outputs/extraction1 --output outputs/review1
 | [BEV 范围](docs/BEV.md) | 范围配置、覆盖校验与采样/编辑一致性 |
 | [顶视参考采集](docs/CAPTURE.md) | Epic、同步、去遮挡与采集结果接入 |
 | [算法说明](docs/ALGORITHM.md) | 默认方案四类 GT 口径和连接规则 |
-| [XODR-only 与方法对比](docs/XODR_ONLY.md) | 旧版代码复用、独立入口、同帧对照及优缺点 |
+| [XODR-only 与方法对比](docs/XODR_ONLY.md) | V4.1 恢复与连接、独立入口、同帧对照及优缺点 |
 | [页面审核与补线](docs/POSTPROCESSING.md) | 端点连接、导出、应用修改和继续编辑 |
 | [CAD 往返](docs/CAD_GUIDE.md) | DXF 图层、曲线、导回与命令行 |
 | [常见问题](docs/TROUBLESHOOTING.md) | 输入不匹配、断线、导回冲突与环境错误 |

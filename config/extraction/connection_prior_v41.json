@@ -1,0 +1,10 @@
+{
+ "schema": "pinned_xodr_connection_reference_v1",
+ "asset": "xodr_connection_prior_v41.json",
+ "sha256": "8adc762622af5be44ff5b37fda7f5e3f64b1c55eb614caaae9089c8b66119b1e",
+ "xodr_sha256": "5d883b799f634030af92be1e9d79d107845540ba04338e8c60e095be1aef7be7",
+ "source_world_file_sha256": "4be8bcc39bce2a097c9a370ceae00053a88082ada3736d0ca08b52ff73b4648a",
+ "features": 63,
+ "source": "xodr_only_legacy_v41_topology_local_stitched.legacy_world.dividers",
+ "approved_for_training": false
+}

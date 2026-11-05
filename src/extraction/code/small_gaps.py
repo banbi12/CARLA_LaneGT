@@ -33,7 +33,7 @@ def merge_intervals(ranges):
   else:out.append([a,b])
  return out
 
-def fill_small_gaps(features,m,lab,depth,zebra,stop_mask,allowed_classes=('boundary','divider')):
+def fill_small_gaps(features,m,lab,depth,zebra,stop_mask,allowed_classes=('boundary','divider'),max_gap_m=.35,min_tangent_chord_dot=None,max_curve_chord_ratio=None):
  out=copy.deepcopy(features);audit=[];reject=[];scale=float(m['optical_to_world_carla'][2][3])/m['intrinsic'][0][0];radius=max(1,int(np.ceil(.12/scale)));kernel=np.ones((radius*2+1,radius*2+1),np.uint8);road=cv2.dilate(np.isin(lab,[1,24]).astype(np.uint8),kernel)>0;side=cv2.dilate((lab==2).astype(np.uint8),kernel)>0
  for f in out:
   if f['class_name'] in ['boundary','divider']:f.setdefault('pre_gap_geometries_xyz',[f['points_xyz']])
@@ -53,9 +53,12 @@ def fill_small_gaps(features,m,lab,depth,zebra,stop_mask,allowed_classes=('bound
      pa=np.array(a['points_xyz'])[::(-1 if ra else 1),:2]
      for rb in [False,True]:
       pb=np.array(b['points_xyz'])[::(-1 if rb else 1),:2];v=pb[0]-pa[-1];gap=float(np.linalg.norm(v))
-      if not .015<gap<=.35:continue
+      if not .015<gap<=max_gap_m:continue
       ta=endpoint(pa);tb=endpoint(pb,True);chord=v/gap
-      spline=CubicHermiteSpline([0,gap],np.stack([pa[-1],pb[0]]),np.stack([ta,tb]));curve=spline(np.linspace(0,gap,max(5,int(gap/.02)+1)));line=LineString(curve);uv=project(curve,m).round().astype(int);h,w=lab.shape
+      if min_tangent_chord_dot is not None and min(float(ta@chord),float(tb@chord))<min_tangent_chord_dot:continue
+      spline=CubicHermiteSpline([0,gap],np.stack([pa[-1],pb[0]]),np.stack([ta,tb]));curve=spline(np.linspace(0,gap,max(5,int(gap/.02)+1)));line=LineString(curve)
+      if max_curve_chord_ratio is not None and line.length/gap>max_curve_chord_ratio:continue
+      uv=project(curve,m).round().astype(int);h,w=lab.shape
       if np.any((uv[:,0]<48)|(uv[:,0]>=w-48)|(uv[:,1]<48)|(uv[:,1]>=h-48)):continue
       x,y=uv[:,0],uv[:,1]
       if np.any(stop_mask[y,x]):reject.append(dict(reason='stopline_barrier',class_name=a['class_name'],gap_m=gap));continue

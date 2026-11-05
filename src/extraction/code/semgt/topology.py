@@ -174,8 +174,22 @@ def connect_dashes(features,meta,labels,depth,stripes,policy,connection_referenc
                             if not can_extend(a) or not can_extend(b):continue
                             if min(ta@chord,tb@chord)<policy['dash_extension_tangent_dot']:continue
                             if not (repeated_support(a,gap) or repeated_support(b,gap) or long_straight):continue
+                        require_route=gap>policy['connection_xodr_required_gap_m']
+                        map_assessment=dict(decision='neutral',reason='connection_reference_not_supplied')
+                        if require_route and not (guarded and policy['connection_use_xodr'] and connection_reference is not None):
+                            pending.append(dict(source_ids=[a['id'],b['id']],reason='xodr_route_required_but_reference_missing',gap_m=gap));continue
+                        if guarded and policy['connection_use_xodr'] and connection_reference is not None:
+                            map_assessment=connection_reference.assess(a,b,pa,pb,curve,ta,tb,policy,require_route=require_route)
+                            if map_assessment['decision']=='conflict':
+                                pending.append(dict(source_ids=[a['id'],b['id']],reason=map_assessment['reason'],gap_m=gap,xodr_evidence=map_assessment));continue
+                        route_points=map_assessment.get('route_points')
+                        if policy['connection_xodr_route_geometry'] and route_points:
+                            route_curve=np.asarray(route_points,float)
+                            curve=np.vstack([pa[-1],route_curve,pb[0]])
+                            map_assessment['route_used']=True
                         line=LineString(curve)
-                        if not line.is_simple or line.length>gap*policy['dash_max_curve_chord_ratio']:
+                        length_factor=max(policy['dash_max_curve_chord_ratio'],policy['connection_xodr_route_max_length_factor'])
+                        if not line.is_simple or line.length>gap*length_factor:
                             continue
                         supported,reason=bridge_supported(curve,meta,labels,depth,stripes,policy)
                         if not supported:
@@ -191,11 +205,6 @@ def connect_dashes(features,meta,labels,depth,stripes,policy,connection_referenc
                                 blocked=True;break
                         if blocked:
                             pending.append(dict(source_ids=[a['id'],b['id']],reason='third_observed_line_or_marking',gap_m=gap,blocking_id=q['id']));continue
-                        map_assessment=dict(decision='neutral',reason='connection_reference_not_supplied')
-                        if guarded and policy['connection_use_xodr'] and connection_reference is not None:
-                            map_assessment=connection_reference.assess(a,b,pa,pb,curve,ta,tb,policy)
-                            if map_assessment['decision']=='conflict':
-                                pending.append(dict(source_ids=[a['id'],b['id']],reason=map_assessment['reason'],gap_m=gap,xodr_evidence=map_assessment));continue
                         joined=np.vstack([pa,curve[1:-1],pb])
                         if not LineString(joined).is_simple:
                             continue

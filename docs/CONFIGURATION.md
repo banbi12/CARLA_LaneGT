@@ -46,7 +46,8 @@ python tools/configure.py --from-json /tmp/lanegt-paths.json
 /data/town10-resources/
 ├── maps/
 │   ├── xodr_crosswalk_world.json
-│   └── xodr_connection_prior.json
+│   ├── xodr_connection_prior.json
+│   └── xodr_connection_prior_v41.json   # 由 V4.1 世界缓存生成
 └── capture/
     ├── server_Town10HD.xodr
     ├── selective_occluder_allowlist.json
@@ -59,7 +60,7 @@ python tools/import_resources.py --from-directory /data/town10-resources
 
 工具按 `config/resources.town10.json` 校验 5 个文件的 SHA256，再导入 `assets/maps/` 与 `assets/capture/`。已有同内容文件可复用，内容不同则拒绝覆盖。资源不随公开源码分发，使用者需要取得匹配资源及其使用权限；仓库不提供下载服务。只拥有原版 Town10 地图不代表资源已匹配。
 
-`config/extraction/connection_prior.json` 还固定 divider 连接先验及 XODR 的指纹。资源指纹用于一致性验证，不能仅重算指纹来跳过地图内容差异。
+`config/extraction/connection_prior.json` 固定旧版 divider 连接先验；`config/extraction/connection_prior_v41.json` 固定 V4.2 B/V4.3 使用的 V4.1 stitched divider 参考及 XODR 指纹。V4.1 参考由 `tools/build_xodr_connection_reference.py` 从对应世界缓存生成，不计入上述 5 个外部资源文件的导入清单。资源指纹用于一致性验证，不能仅重算指纹来跳过地图内容差异。
 
 ## 输出目录保护
 

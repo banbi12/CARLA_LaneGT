@@ -24,7 +24,11 @@ def reference(row,paths,project,out,policy,old_world=None,reference_case=None):
     if policy['connection_guards_enabled'] and policy['connection_use_xodr']:
         from .connection_guard import load_connection_reference
         connection_reference=load_connection_reference(project,meta)
-    features,audit,hints=dividers(meta,labels,depth,rgb,policy,old_world,connection_reference)
+    divider_base=None
+    if policy.get('divider_base_mode')=='xodr_v41':
+        from .connection_guard import load_divider_base
+        divider_base=load_divider_base(project,meta)
+    features,audit,hints=dividers(meta,labels,depth,rgb,policy,old_world,connection_reference,divider_base)
     import boundary_core
     case=dict(case_id=row['reference'])
     # The observed boundary geometry is unchanged; old boundary remnants are never input.
@@ -33,8 +37,9 @@ def reference(row,paths,project,out,policy,old_world=None,reference_case=None):
         features.append(dict(id=f['id'],class_name='boundary',points_xyz=f['points_xyz'],source=f['source'],review='pending'))
     crossings=load(project/'source_geometry/xodr_crosswalk_world.json')
     features+=select(crossings,row['transform'],meta,row.get('BEV_range_m'))
-    features,boundary_gaps,boundary_rejected=repair_boundaries(features,meta,labels,depth,audit['observed_crosswalk_mask'])
+    features,boundary_gaps,boundary_rejected=repair_boundaries(features,meta,labels,depth,audit['observed_crosswalk_mask'],policy)
     audit['boundary_small_gap_connections']=boundary_gaps
+    audit['boundary_smooth_gap_connections']=[record for record in boundary_gaps if record.get('boundary_smooth_connection')]
     audit['small_gap_connections']+=boundary_gaps
     audit['rejected_connections']+=boundary_rejected
     stripe_mask=audit.pop('observed_crosswalk_mask');Image.fromarray((stripe_mask*255).astype(np.uint8)).save(out/'observed_crosswalk_paint_mask.png')

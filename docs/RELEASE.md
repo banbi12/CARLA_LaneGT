@@ -28,7 +28,7 @@ git diff --cached --stat
 
 ```bash
 git archive --format=tar.gz --prefix=CARLA_LaneGT/ \
-  --output=../CARLA_LaneGT-1.0.0-source.tar.gz HEAD
+  --output=../CARLA_LaneGT-1.1.0-source.tar.gz HEAD
 ```
 
 将归档输出放在仓库之外，或在创建后避免将归档本身加入跟踪。源码包不包含运行资源；解压后仍需按安装与配置文档准备输入。

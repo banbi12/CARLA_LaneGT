@@ -58,6 +58,7 @@ class ConnectionReference:
         self.map_hash=world['xodr_sha256'];self.file_sha256=file_sha256
         features=list(world['features'].values())
         if any(f.get('class')!='divider' for f in features):raise ValueError('Divider-only connection reference required')
+        self.features=features
         self.ids=[];self.lines=[]
         for f in features:
             points=np.asarray(f['points_xyz'],float)
@@ -80,9 +81,20 @@ class ConnectionReference:
     def validate_map(self,meta):
         if meta.get('xodr_sha256')!=self.map_hash:raise ValueError('XODR connection-reference map mismatch')
 
+    def base_features(self):
+        """Expose the pinned V4.1 stitched chains as divider base features."""
+        result=[]
+        for feature in self.features:
+            source=dict(feature.get('source') or {})
+            source.update(xodr_v41_base=True,base_id=feature['id'])
+            result.append(dict(id=feature['id'],class_name='divider',
+                               points_xyz=feature['points_xyz'],source=source,review='pending'))
+        return result
+
     def describe(self):
         return dict(status='validated_connection_reference',xodr_sha256=self.map_hash,
-                    file_sha256=self.file_sha256,curves=len(self.lines),scope='generated_uncertain_bridges_only')
+                    file_sha256=self.file_sha256,curves=len(self.lines),
+                    scope='generated_divider_bridges_with_v41_route_geometry')
 
     def associate(self,window,policy):
         if window is None or not self.lines:return None
@@ -117,27 +129,58 @@ class ConnectionReference:
                 heapq.heappush(heap,(distance+cost,neighbor,path+(neighbor[0],)))
         return None
 
-    def assess(self,a,b,pa,pb,curve,ta,tb,policy):
+    def route_geometry(self,a,b,maximum):
+        """Return the map-following path between two endpoint associations.
+
+        The current implementation returns geometry when both endpoints project
+        to the same pinned XODR curve. Multi-curve routes are still validated by
+        route() but keep the observed bridge geometry; extending this to full
+        multi-curve path assembly is a separate step.
+        """
+        i,j=a['index'],b['index'];s,t=a['position'],b['position']
+        if i!=j or abs(s-t)>maximum:
+            return None
+        line=self.lines[i]
+        lo,hi=sorted((s,t))
+        segment=substring(line,lo,hi)
+        if segment.is_empty or segment.length<=1e-9:
+            return None
+        if s>t:
+            segment=LineString(list(segment.coords)[::-1])
+        return segment
+
+    def assess(self,a,b,pa,pb,curve,ta,tb,policy,require_route=False):
         gap=float(np.linalg.norm(pb[0]-pa[-1]));chord=(pb[0]-pa[-1])/gap
         uncertain=min(float(ta@chord),float(tb@chord))<np.cos(np.deg2rad(policy['dash_xodr_uncertain_angle_deg']))
-        if gap<policy['dash_xodr_min_gap_m'] or not uncertain:
+        if not require_route and (gap<policy['dash_xodr_min_gap_m'] or not uncertain):
             return dict(decision='neutral',reason='observed_geometry_not_ambiguous')
         left=self.associate(observed_end_window(a,pa),policy)
         right=self.associate(observed_end_window(b,pb,True),policy)
         if left is None or right is None:
-            return dict(decision='neutral',reason='no_unique_map_endpoint_evidence',
+            reason='no_unique_map_endpoint_evidence'
+            if require_route:
+                return dict(decision='conflict',reason=reason,
+                            endpoint_ids=[left['id'] if left else None,right['id'] if right else None])
+            return dict(decision='neutral',reason=reason,
                         endpoint_ids=[left['id'] if left else None,right['id'] if right else None])
         route=self.route(left,right,2*gap+2.)
         common=dict(endpoint_ids=[left['id'],right['id']],endpoint_support=[left['support'],right['support']])
         if route is None:return dict(common,decision='conflict',reason='xodr_endpoints_without_short_compatible_route')
-        corridor=unary_union([self.lines[i] for i in route]);line=LineString(curve);ss,xy=sample(line,.15)
+        route_line=self.route_geometry(left,right,2*gap+2.)
+        corridor=route_line if route_line is not None else unary_union([self.lines[i] for i in route])
+        line=LineString(curve);ss,xy=sample(line,.15)
         distance=np.asarray([corridor.distance(Point(p)) for p in xy]);bad=distance>policy['dash_xodr_bridge_max_deviation_m']
         cuts=np.flatnonzero(np.diff(np.r_[False,bad,False].astype(int)))
         longest=max([float(ss[min(hi,len(ss)-1)]-ss[max(0,lo-1)]) for lo,hi in zip(cuts[::2],cuts[1::2])]+[0.])
         conflict=longest>policy['dash_xodr_bad_run_m']
-        return dict(common,decision='conflict' if conflict else 'supported',
+        result=dict(common,decision='conflict' if conflict else 'supported',
             reason='xodr_generated_bridge_path_conflict' if conflict else 'xodr_compatible_generated_bridge',
-            route_ids=[self.ids[i] for i in route],maximum_deviation_m=float(distance.max()),bad_run_m=longest)
+            route_ids=[self.ids[i] for i in route],maximum_deviation_m=float(distance.max()),bad_run_m=longest,
+            route_used=route_line is not None)
+        if route_line is not None:
+            result['route_points']=[[float(x),float(y)] for x,y in route_line.coords]
+            result['route_length_m']=float(route_line.length)
+        return result
 
 
 @lru_cache(maxsize=4)
@@ -151,7 +194,12 @@ def _load_pinned(asset,pin_path,map_path):
 
 
 def load_connection_reference(project,meta):
-    reference=_load_pinned(str((project/'source_geometry/xodr_connection_prior.json').resolve()),
-        str((project/'config/connection_prior.json').resolve()),str((project/'capture_template/evidence/server_Town10HD.xodr').resolve()))
+    reference=_load_pinned(str((project/'source_geometry/xodr_connection_prior_v41.json').resolve()),
+        str((project/'config/connection_prior_v41.json').resolve()),str((project/'capture_template/evidence/server_Town10HD.xodr').resolve()))
     reference.validate_map(meta)
     return reference
+
+
+def load_divider_base(project,meta):
+    """Load the V4.1 stitched divider chains used by the B hybrid mode."""
+    return load_connection_reference(project,meta).base_features()

@@ -18,7 +18,7 @@ def planned(project,paths,rows):
         six_cameras='optional supplied camera images and measured calibration; not required for topdown capture',
         layer_variant=load(project/'capture_template/config/layer_variants.json'),keep_layers=['Ground','Decals'],hide_confirmed_objects=len(load(project/'capture_template/evidence/selective_occluder_allowlist.json')),
         gpu_stop_MB_decimal=7400,gpu_trigger_MiB=7057,hot_map_switch=False,owned_server_only=True,
-        annotation_contract=dict(divider='semantic_observation_primary',old_divider_geometry='optional_diagnostic_only',crosswalk='XODR_objects',centerline='original_per_frame'),GPU_started=False,CARLA_started=False)
+        annotation_contract=dict(divider='xodr_v41_base_with_semantic_supplement',old_divider_geometry='xodr_v41_base',crosswalk='XODR_objects',centerline='original_per_frame'),GPU_started=False,CARLA_started=False)
 
 def execute(project,paths,rows,output):
     plan=planned(project,paths,rows)

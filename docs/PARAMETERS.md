@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|---|
 | CARLA 版本 | 0.9.16 | config/resources.town10.json:carla_version | 声明已验证服务器/API环境 | 接入其他环境需适配后验证 | 其他版本未验证；版本号本身不代替地图指纹 | 换版本需重新验证地图、接口、采集和几何 |
 | 地图 | Town10HD / Town10HD_Opt | config/resources.town10.json:validated_maps；src/capture/code/run_topdown.py:服务器路径 | 记录已验证地图；当前采集配置使用 Opt | 接入其他环境需适配后验证 | 平面、单 laneSection；指定 XODR和对象接口；非任意Town10构建 | 换城镇需适配、验证并重采/重提取 |
-| 地图与资源指纹 | XODR 5d883b…；其他摘要见清单 | config/resources.town10.json:files；config/extraction/connection_prior.json | 资源一致性 | 不可作为调参项 | 导入/提取/采集检查 SHA256；采集还比较 XODR 文本 | 资源发生变化必须重建关联先验、标注并重新验证；不能只改摘要 |
+| 地图与资源指纹 | XODR 5d883b…；其他摘要见清单 | config/resources.town10.json:files；config/extraction/connection_prior.json、connection_prior_v41.json | 资源一致性 | 不可作为调参项 | 导入/提取/采集检查 SHA256；采集还比较 XODR 文本 | 资源发生变化必须重建关联先验、标注并重新验证；不能只改摘要 |
 | 运行解释器/路径 | 部署时配置 | config/paths.local.json:runtime_python,topdown_root,frame_manifest,cases,data_root | 定位通用数据和几何环境 | 可改 | 输入应真实存在；输出目录保护；cases 提取可选、采集必需 | 只迁路径且内容不变无需重采；按新路径检查并必要时重建图册 |
 | BEV 范围 | [-15,-30,15,30] | extract/check/xodr-only/prepare_topdown.py:--bev-range；semgt/bev.py:bounds | 控制裁剪区域 | 可改 | 有限且 min<max；semantic 整个地面 ROI 投影必须在安全边内；支持非对称 | 覆盖足够：重提取、图册、导出；不足：先重采；CAD上下文重建 |
 | 中心线模式 | none | extract/xodr-only:--centerline | none/generate/provided | 可改 | provided需标签；generate需匹配XODR；未知监督不当四类负样本 | 不必重采；重提取/图册及模型导出 |
@@ -107,6 +107,36 @@
 | dash_xodr_endpoint_margin_m | 0.2 | S:dash_xodr_endpoint_margin_m | 地图匹配候选之间的区分余量 | 可改配置（实验） | 无完整数值硬校验；长度建议正数，成对阈值保持min≤max，比例/点积取合法范围 | 无需重采；重提取、图册及可选模型导出 |
 | dash_xodr_bridge_max_deviation_m | 1.25 | S:dash_xodr_bridge_max_deviation_m | 生成连接偏离地图路径阈值 | 可改配置（实验） | 无完整数值硬校验；长度建议正数，成对阈值保持min≤max，比例/点积取合法范围 | 无需重采；重提取、图册及可选模型导出 |
 | dash_xodr_bad_run_m | 0.5 | S:dash_xodr_bad_run_m | 持续偏离地图的长度阈值 | 可改配置（实验） | 无完整数值硬校验；长度建议正数，成对阈值保持min≤max，比例/点积取合法范围 | 无需重采；重提取、图册及可选模型导出 |
+
+### V4.2 B / V4.3 新增参数
+
+以下键只影响 semantic 提取。V4.2 B 的 `divider_base_*` 以 XODR V4.1 stitched base 为主体，semantic 观测只做补充；V4.3 的 `connection_xodr_*` 只影响长连接校验与路线几何。全部为实验配置，修改后需在新目录重新提取并重审；几何变化会使旧补线、审核记录和 CAD context 失效。
+
+| 参数名 | 当前值 | 文件:字段 | 作用 | 是否可改 | 校验限制 | 改后是否需要重新采集或重新跑 |
+|---|---|---|---|---|---|---|
+| divider_base_mode | xodr_v41 | S:divider_base_mode | divider 主体：`xodr_v41` 用 V4.1 stitched base，`semantic` 保持纯观测 | 可改配置（实验） | 仅允许 `semantic`/`xodr_v41` | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_min_length_m | 0.35 | S:divider_base_min_length_m | base 短线过滤长度 | 可改配置（实验） | 无独立硬校验；建议正值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_min_supplement_m | 0.5 | S:divider_base_min_supplement_m | supplement 最短保留长度 | 可改配置（实验） | 无独立硬校验；建议正值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_coverage_m | 0.2 | S:divider_base_coverage_m | supplement 覆盖判定距离 | 可改配置（实验） | 无独立硬校验；建议正值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_duplicate_coverage | 0.9 | S:divider_base_duplicate_coverage | 覆盖达到该比例时丢弃 supplement | 可改配置（实验） | 无独立硬校验；建议 0–1 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_supplement_coverage | 0.1 | S:divider_base_supplement_coverage | 覆盖低于该比例时整条保留 | 可改配置（实验） | 无独立硬校验；建议 0–1 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_parallel_m | 0.35 | S:divider_base_parallel_m | 与 base 平行视为重复的距离 | 可改配置（实验） | 无独立硬校验；建议正值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_parallel_fraction | 0.8 | S:divider_base_parallel_fraction | 平行重复的重叠比例 | 可改配置（实验） | 无独立硬校验；建议 0–1 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_double_yellow_m | 0.5 | S:divider_base_double_yellow_m | 双黄线重复距离 | 可改配置（实验） | 无独立硬校验；建议正值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_extension_m | 1.0 | S:divider_base_extension_m | base 端点延伸长度 | 可改配置（实验） | 无独立硬校验；建议正值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_smooth_enabled | true | S:divider_base_smooth_enabled | 启用 supplement→base 平滑连接 | 可改配置（实验） | 布尔值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_smooth_max_gap_m | 2.0 | S:divider_base_smooth_max_gap_m | 平滑连接最大 gap | 可改配置（实验） | 无独立硬校验；需大于 min | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_smooth_min_gap_m | 0.02 | S:divider_base_smooth_min_gap_m | 平滑连接最小 gap | 可改配置（实验） | 无独立硬校验；需小于 max | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_smooth_max_curve_ratio | 2.0 | S:divider_base_smooth_max_curve_ratio | 平滑曲线长度/弦长上限 | 可改配置（实验） | 无独立硬校验；建议 ≥1 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_smooth_tangent_dot | 0.2 | S:divider_base_smooth_tangent_dot | 端部切向与连接弦对齐下限 | 可改配置（实验） | 无独立硬校验；建议 0–1 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| divider_base_merge_endpoint_m | 0.1 | S:divider_base_merge_endpoint_m | supplement 合并到 base 的端点容差 | 可改配置（实验） | 无独立硬校验；建议正值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| boundary_smooth_enabled | true | S:boundary_smooth_enabled | 启用 boundary-only 平滑短断口 | 可改配置（实验） | 布尔值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| boundary_smooth_max_gap_m | 1.5 | S:boundary_smooth_max_gap_m | boundary 平滑最大 gap | 可改配置（实验） | 硬校验 0.35 < 值 ≤ 2.0 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| boundary_smooth_min_tangent_dot | 0.2 | S:boundary_smooth_min_tangent_dot | boundary 平滑切向对齐下限 | 可改配置（实验） | 硬校验 0–1 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| boundary_smooth_max_curve_ratio | 1.5 | S:boundary_smooth_max_curve_ratio | boundary 平滑曲线/弦长上限 | 可改配置（实验） | 硬校验 1–3 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| connection_xodr_required_gap_m | 6.0 | S:connection_xodr_required_gap_m | 超过该 gap 强制 XODR 路线校验 | 可改配置（实验） | 硬校验 0 ≤ 值 < dash_max_gap_m | 无需重采；重新提取、图册；旧人工记录需重审 |
+| connection_xodr_route_geometry | true | S:connection_xodr_route_geometry | 同曲线端点用 V4.1 路径几何替代 Hermite 桥 | 可改配置（实验） | 布尔值 | 无需重采；重新提取、图册；旧人工记录需重审 |
+| connection_xodr_route_max_length_factor | 2.0 | S:connection_xodr_route_max_length_factor | 生成桥长度上限系数 | 可改配置（实验） | 硬校验 ≥1 | 无需重采；重新提取、图册；旧人工记录需重审 |
 
 ## boundary 分段与固定修补
 

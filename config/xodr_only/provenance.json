@@ -1,5 +1,5 @@
 {
-  "engine": "xodr_only_legacy_v1",
+  "engine": "xodr_only_legacy_v41_topology_local_stitched",
   "upstream": "Historical MapTRv2 collector, final M XODR map pipeline",
   "files": [
     {
@@ -44,6 +44,24 @@
         "annotation_boundaries": "59f81f710681363ddf5c758de7be4fd9de0828897e6e4d6ab905f49a5a2712bf",
         "selected_dividers": "db0efdc82523c32a20a7edf53f04d44bccf69833a56a4a9b580e83d153237dc4"
       }
+    },
+    {
+      "source": "stitch_dividers.py (new XODR-only stage)",
+      "source_sha256": "620b0e39f13b43d9834fc5ecdcce255c5c6d22b7709878dc45d04b2de38bd5f8",
+      "destination": "src/xodr_only/code/xodrgt/stitch_dividers.py",
+      "copy": "new implementation; not copied from legacy"
+    },
+    {
+      "source": "recover_rejected_dividers.py (new XODR-only stage)",
+      "destination": "src/xodr_only/code/xodrgt/recover_rejected_dividers.py",
+      "copy": "new implementation; not copied from legacy",
+      "source_sha256": "a9835b345dfbf8b3757e200f34c53536c425593712fc4db85c013bc08eeb5c45"
+    },
+    {
+      "source": "xodr_topology.py (new XODR-only stage)",
+      "destination": "src/xodr_only/code/xodrgt/xodr_topology.py",
+      "copy": "new implementation; not copied from legacy",
+      "source_sha256": "0c680d16bb84982a9c2248e96c5410fe56b298fc79945c60a51e65ba2e229a82"
     }
   ],
   "shared_parser": "src/extraction/code/semgt/legacy_xodr.py",

@@ -1,13 +1,13 @@
 {
   "name": "CARLA_LaneGT_Town10",
-  "release": "1.0.0",
-  "algorithm": "semantic_primary_v4_2_connection_guards",
+  "release": "1.1.0",
+  "algorithm": "semantic_v4_2_b_xodr_v41_base",
   "scope": "Verified CARLA_0.9.16 Town10HD / Town10HD_Opt with matching resource fingerprints; other versions/towns not validated",
   "centerline_generator": "legacy_xodr_lane_geometry_v1",
   "centerline_world_schema": "lanegt_centerline_world_v2",
   "schemes": {
-    "default": "semantic_primary_v4_2_connection_guards",
-    "xodr_only": "xodr_only_legacy_v1"
+    "default": "semantic_v4_2_b_xodr_v41_base",
+    "xodr_only": "xodr_only_legacy_v41_topology_local_stitched"
   },
   "default_output_schema": "lanegt_geometry_v1",
   "default_sampling_backend": "none",

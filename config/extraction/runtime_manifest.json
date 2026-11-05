@@ -1,7 +1,7 @@
 {
-  "version": "semantic_primary_v4_2_connection_guards",
-  "release": "1.0.0",
-  "status": "frozen_first_release_requires_manual_GT_review",
+  "version": "semantic_v4_2_b_xodr_v41_base",
+  "release": "1.1.0",
+  "status": "candidate_full_run_requires_manual_review",
   "approved_for_training": false,
   "map_identity_basis": "verified_CARLA_0.9.16_Town10_matching_XODR_sha256",
   "validated_carla_version": "0.9.16"
