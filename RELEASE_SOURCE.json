@@ -1,5 +1,5 @@
 {
-  "release": "1.1.0",
+  "release": "1.1.1",
   "algorithm": "semantic_v4_2_b_xodr_v41_base",
   "source_files": {
     "src/extraction/code/cli.py": "51ffadfeb6026e55dd4e0258ced6c1f65ae56622d823eef48e747e11ac1716ed",

@@ -42,7 +42,7 @@ def main():
     for t in tokens:
         if not re.fullmatch(r'[A-Za-z0-9_.-]+',t) or t in ['.','..']:raise ValueError('无效 token')
         x,s=xr[t],sr[t];xg=load(a.xodr/'frames'/t/'gt.json.gz');sg=load(a.semantic/'frames'/t/'gt.json.gz')
-        if xg.get('scheme')!='xodr-only' or sg.get('algorithm_version') not in ('semantic_v4_2_b_xodr_v41_base','semantic_primary_v4_3_xodr_v41_connection_path'):raise ValueError('输入必须依次为 XODR-only 与 V4.2 B/V4.3 semantic 方案')
+        if xg.get('scheme')!='xodr-only' or sg.get('algorithm_version')!='semantic_v4_2_b_xodr_v41_base':raise ValueError('输入必须依次为 XODR-only 与 V4.2 B semantic 方案')
         if not np.array_equal(x['transform'],s['transform']) or x['reference']!=s['reference']:raise ValueError('位姿或参考绑定不同，禁止混帧比较')
         if x.get('image_paths',{})!=s.get('image_paths',{}):raise ValueError('相机绑定不同；请对两方案采用相同的六相机/纯顶视模式')
         if bounds(xg.get('BEV_range_m'))!=bounds(sg.get('BEV_range_m')):raise ValueError('BEV 范围不同')

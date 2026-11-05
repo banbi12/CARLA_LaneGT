@@ -112,6 +112,6 @@ Detailed documentation is currently in Chinese:
 
 ## Status and license
 
-- Software version: `1.1.0`; algorithm versions: V4.2 B (semantic hybrid) and V4.1 (XODR-only).
-- Release: https://github.com/banbi12/CARLA_LaneGT/releases/tag/v1.1.0
+- Software version: `1.1.1`; algorithm versions: V4.2 B (semantic hybrid) and V4.1 (XODR-only).
+- Release: https://github.com/banbi12/CARLA_LaneGT/releases/tag/v1.1.1
 - Code: MIT. Third-party code, maps, data, and assets keep their own licenses; see `LICENSES/` and `THIRD_PARTY_NOTICES.md`.

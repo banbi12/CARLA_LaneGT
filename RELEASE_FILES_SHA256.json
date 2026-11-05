@@ -1,15 +1,15 @@
 {
-  "release": "1.1.0",
-  "revision": "release_v1_1_0_xodr_v41_semantic_v42b",
+  "release": "1.1.1",
+  "revision": "release_v1_1_1_docs_cleanup",
   "files": {
     ".gitignore": {
       "sha256": "c01cbd0aa71ef3af6eae1a8f76f32264cf44e503448ca386a46c47da0940b97d"
     },
     "CHANGELOG.md": {
-      "sha256": "75247d3823362f1d2346064168a6eb5e9883acf73e460c493a925450f25b2afe"
+      "sha256": "982e4ba508ac8f5925f6e9f3b755916ec23103342740d1335c48b5bc94c3cd14"
     },
     "KNOWN_ISSUES.md": {
-      "sha256": "919b0b49d5d7d2f1ecf3e1c12418d31afbeaab3867384838a0d736fc319c08c1"
+      "sha256": "5f601e3df2ad736db9314d40bc713629b52c08881d6690915bb35d988b10bfba"
     },
     "LICENSE": {
       "sha256": "6945fc18c5e89d24a05a63ca72af1517da2c15083bc18e1c85eaf59d103419ee"
@@ -21,22 +21,22 @@
       "sha256": "c23ee97823f7ed88292fccb07798f55422d134ad83b34fa66577a7628d22046b"
     },
     "PROJECT_LAYOUT.json": {
-      "sha256": "3d96c122335696d248690542087fbf7e9bc381b3d4f1cd9b8179f9809c4f307f"
+      "sha256": "0e52e85cf69b9fb17548dd87dfdfefb9b4bde92fa2fed8647cb8003542559d79"
     },
     "README-EN.md": {
-      "sha256": "608e33211ddc9210ac0681e6e13222fab4c218b6a1166f044ccdc77269e7d801"
+      "sha256": "ed3069559d249ffe7d5b8f0b7e98b6c72b6c444e245735913f114bb8682db191"
     },
     "README.md": {
-      "sha256": "985685bc78438a93cd9a16f0e8720a348a0be6d02d4594470d83c8b1293d6dc9"
+      "sha256": "1732c87b9481ebb6064c7258a03d828a6bcb051850d84c39b9640e0e981edbb5"
     },
     "RELEASE_SOURCE.json": {
-      "sha256": "48ff4af4184e31f6db443814a9ff5435a74759bcd093bb779d5b374b22401134"
+      "sha256": "b9b85c4c3fb40667f07246051d05799ba8c26810bfcae56a051eb053c89aca2e"
     },
     "THIRD_PARTY_NOTICES.md": {
       "sha256": "c5744705290341f256baeaa103315a74abcf7fc7bbe610f75e634f092f79f938"
     },
     "VERSION": {
-      "sha256": "1575e1af4a95f12f70b4ee6a6adce8160953d93ea17dc2611b90883ccc3ad3b8"
+      "sha256": "cc52f678848b814373757b460383bf61960e4943c203735adde0a350b3e50989"
     },
     "assets/capture/.gitkeep": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
@@ -69,7 +69,7 @@
       "symlink": "../paths.local.json"
     },
     "config/extraction/runtime_manifest.json": {
-      "sha256": "0321980356d15b5311acbc789785599b66652120114b2d59db81692f36664f67"
+      "sha256": "3aeaca2a29737c308c54bbc141308e4a38dc2b7018a7b0b5308ce1b0888f03b8"
     },
     "config/extraction/semantic_policy.json": {
       "sha256": "bf9f1ffc65c1562b26039190f5cd9e8bf400a2c15f042bf20d8d317c35a560ee"
@@ -84,7 +84,7 @@
       "sha256": "f5c3fa7f67b317358c1bdd040f5133d11e5e219992d84fdc257fca28c9e4eb7c"
     },
     "docs/ALGORITHM.md": {
-      "sha256": "d6c130e3d39c1de2202cb1b5a728a2afd2fdd21088018e9f38a93db8da03ec78"
+      "sha256": "2c470bfcfc1cbfbd3d3f8af600885f8ae07de45d6f7fa912576ce0feac57927d"
     },
     "docs/BEV.md": {
       "sha256": "f63844e4667c6091a402e573616721d62441fb4543c8a95f8da18d3bf57ffb1c"
@@ -99,7 +99,7 @@
       "sha256": "b588a24d4c3e07ccd9b6d34ac161aac7e6f3a03f44dcc61c88c499157bdd9b91"
     },
     "docs/CONFIGURATION.md": {
-      "sha256": "ec11cf3b688db8658b3b85fd6fe31cab2da87c8d0ee0f77980037cdd89097f2b"
+      "sha256": "54af671b7f4bb641b0b9f6c4d9e1d9072c368a3e56d239ba90751ddba189fc30"
     },
     "docs/GENERIC_GT.md": {
       "sha256": "a43e8e3fe22dbf55b3ad6542311a70f24ea91d8405e7a9295166c11b1e996ea1"
@@ -114,7 +114,7 @@
       "sha256": "d5640bde7f8e14e54dcb174a3e74d8495a575de88f4d7f5c93ed7b733dc67dca"
     },
     "docs/PARAMETERS.md": {
-      "sha256": "8be630b58427df63f924066a14b068f292e2e48e85be50c013db6902785307e6"
+      "sha256": "25b03d6a2c9e662bbaef2d2eb786823d355726ba1e147a6769773ff1412e1e82"
     },
     "docs/POSTPROCESSING.md": {
       "sha256": "af6392a8fb383359282f01f22c0111a8e4debba53df8280057986e389b73bf4f"
@@ -123,7 +123,7 @@
       "sha256": "93e80e242f428b31e615a58e950c046e08121501239041a0ebdfec5b01194144"
     },
     "docs/RELEASE.md": {
-      "sha256": "a68d2fa7840c0361f3140c90ae8446a95307e93256bedca33da6f1dc86ec83ea"
+      "sha256": "8ca96b044e44848389ef89c5bd64d14586896af76a043b6bbd487764597531ba"
     },
     "docs/TOPDOWN_INPUT.md": {
       "sha256": "7865d8df3788adfa578ee3d5ca59b819222846e6d15fdae702591b8bff0c797e"
@@ -399,7 +399,7 @@
       "sha256": "b3e6ac4daaf912a9513f3380f8abeb428419b010d7a1801c44795e6347b5d4ca"
     },
     "tools/compare_schemes.py": {
-      "sha256": "99156c5b5eeffcbefb05cbb6cef0627e8fc348b3013c1c19e5364da4c363996e"
+      "sha256": "1fad45d02fa23d687d00eec80c6a21a60cce7188c9e33e2175fd7f5ae6fa9a75"
     },
     "tools/configure.py": {
       "sha256": "52e3a969e23936dad67cd9f25ee9240bec1947970e6a1dbbc611ab3942f35cd8"

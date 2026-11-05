@@ -1,14 +1,19 @@
 # 更新记录
 
+## 1.1.1（2026-11-05）
+
+- 文档清理：移除未采用的连接路径实验介绍；V4.2 B 为最终 semantic 方案。
+- `compare` 工具只接受 V4.2 B semantic 输出。
+- 不改变算法、数据格式、已生成数据集或人工补线格式。
+
 ## 1.1.0（2026-11-05）
 
 本版本将 XODR-only 升级到 V4.1，并将默认 semantic 方案升级到 V4.2 B。
 
 - XODR-only V4.1：新增被拒 divider 恢复、XODR 拓扑连接、同 road/lane 局部连接和 ≤0.5m 几何回退；全量 3000 帧通过，divider 20,116、实例 126,370，`geometry-check` 通过。
 - semantic V4.2 B：divider 使用 XODR V4.1 stitched base + semantic supplement；新增 0.20m 覆盖去重、0.35m 平行/双黄线抑制、≤2m Hermite 平滑接入、connected supplement 合并和 boundary ≤1.5m 平滑修补；全量 3000 帧 79,299 实例，实际采样 3000 帧，容量超限 0。
-- semantic V4.3（实验）：V4.1 连接路径与 gap >6m 路线校验，仅完成 400 帧检查，不进入本版本默认全量。
 - 页面补线、补线应用后 GT 重生成、CAD 往返和可选 MapTRv2 采样沿用；结果仍需人工审核，不自动批准训练。
-- 文档与工具：补充 V4.2 B/V4.3 参数索引、V4.1 prior 生成说明；`compare` 工具接受 V4.2 B/V4.3 输出。
+- 文档与工具：补充 V4.2 B 参数索引、V4.1 prior 生成说明；`compare` 工具接受 V4.2 B 输出。
 - 软件版本升至 `1.1.0`。
 
 ## 1.0.0 当前源码状态
@@ -50,14 +55,6 @@
 - 连接按 evidence 分级：`xodr_topology`、`same_road_local`、`small_gap_geometric`。
 - 世界缓存版本升至 `xodr_only_legacy_v41_topology_local_stitched`；旧 v1–v4 缓存必须重新生成。
 - 100 帧 v3/v4.1 双向 0.20m 覆盖均为 100%；divider 数量少是合并链变长，不是几何丢失。
-
-## semantic V4.3：XODR V4.1 连接路径（2026-11-05）
-
-- 新增 `tools/build_xodr_connection_reference.py`，从 XODR-only V4.1 世界缓存的 63 条 stitched divider 生成带 SHA256 锁定的 `xodr_connection_prior_v41.json`。
-- semantic divider 仍以观测几何为主；连接阶段改用 V4.1 连接参考，并对 gap >6m 的连接强制要求 XODR 端点关联与短路径。
-- 同一 V4.1 曲线上的关联端点使用 XODR 路径几何替代端点 Hermite 桥；跨多条 V4.1 曲线的路径目前只做可达性/偏差校验，保留观测桥几何。
-- 新增策略项 `connection_xodr_required_gap_m=6.0`、`connection_xodr_route_geometry=true`、`connection_xodr_route_max_length_factor=2.0`；版本升至 `semantic_primary_v4_3_xodr_v41_connection_path`。
-- 400 帧分层检查完成：75 个 scene，divider 2,589（V4.2 为 2,590），仅 1 帧线数变化；66 处长连接使用 V4.1 路径，XODR 冲突 0，`geometry-check` 通过。尚未执行 3000 帧全量，也未升级发布版本。
 
 ## semantic V4.2 B：XODR V4.1 base + semantic supplement（2026-11-05）
 

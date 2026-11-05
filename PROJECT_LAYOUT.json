@@ -1,6 +1,6 @@
 {
   "name": "CARLA_LaneGT_Town10",
-  "release": "1.1.0",
+  "release": "1.1.1",
   "algorithm": "semantic_v4_2_b_xodr_v41_base",
   "scope": "Verified CARLA_0.9.16 Town10HD / Town10HD_Opt with matching resource fingerprints; other versions/towns not validated",
   "centerline_generator": "legacy_xodr_lane_geometry_v1",

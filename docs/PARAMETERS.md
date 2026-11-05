@@ -108,9 +108,9 @@
 | dash_xodr_bridge_max_deviation_m | 1.25 | S:dash_xodr_bridge_max_deviation_m | 生成连接偏离地图路径阈值 | 可改配置（实验） | 无完整数值硬校验；长度建议正数，成对阈值保持min≤max，比例/点积取合法范围 | 无需重采；重提取、图册及可选模型导出 |
 | dash_xodr_bad_run_m | 0.5 | S:dash_xodr_bad_run_m | 持续偏离地图的长度阈值 | 可改配置（实验） | 无完整数值硬校验；长度建议正数，成对阈值保持min≤max，比例/点积取合法范围 | 无需重采；重提取、图册及可选模型导出 |
 
-### V4.2 B / V4.3 新增参数
+### V4.2 B 新增参数
 
-以下键只影响 semantic 提取。V4.2 B 的 `divider_base_*` 以 XODR V4.1 stitched base 为主体，semantic 观测只做补充；V4.3 的 `connection_xodr_*` 只影响长连接校验与路线几何。全部为实验配置，修改后需在新目录重新提取并重审；几何变化会使旧补线、审核记录和 CAD context 失效。
+以下键只影响 semantic 提取。V4.2 B 的 `divider_base_*` 以 XODR V4.1 stitched base 为主体，semantic 观测只做补充；`connection_xodr_*` 是连接校验的高级参数，B 模式下长连接主要由 V4.1 base 负责。全部为实验配置，修改后需在新目录重新提取并重审；几何变化会使旧补线、审核记录和 CAD context 失效。
 
 | 参数名 | 当前值 | 文件:字段 | 作用 | 是否可改 | 校验限制 | 改后是否需要重新采集或重新跑 |
 |---|---|---|---|---|---|---|
