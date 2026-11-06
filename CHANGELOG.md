@@ -1,5 +1,11 @@
 # 更新记录
 
+## 1.1.2（2026-11-06）
+
+- 移除损坏的 `src/postprocessing/project.json` 软链接；该文件是可选的本地覆盖，不随仓库分发。
+- `.gitignore` 忽略 `src/postprocessing/project.json`；缺失时后处理使用 `config/paths.local.json` 默认值。
+- 不改变算法、数据格式、已生成数据集或人工补线格式。
+
 ## 1.1.1（2026-11-05）
 
 - 文档清理：移除未采用的连接路径实验介绍；V4.2 B 为最终 semantic 方案。

@@ -4,7 +4,7 @@
 
 CARLA LaneGT 是面向 CARLA 场景的道路矢量 GT 生成与修正工具。项目源于 MapTRv2 微调数据准备中发现的 GT 断线、几何偏移以及与 CARLA 实际渲染不一致等问题；进一步排查发现，部分问题与 XODR 几何和实际渲染之间的差异有关。项目结合匹配地图的顶视 RGB、语义 ID 图、深度数组及 XODR 辅助信息，按 GT 类型采用实际观测或地图几何提取和修正道路标注。当前支持四类 GT：`divider`（车道分隔线，支持双黄线合并中线与虚线逻辑连接）、`boundary`（道路与人行道边界）、`ped_crossing`（人行横道轮廓）和可选 `centerline`（车道中心线）。这些 GT 类型本身不限定于 MapTRv2；项目目前提供 MapTRv2 采样适配接口，内部几何结果也可作为后续适配其他矢量地图感知模型的基础。工具还提供可选的六相机投影与鸟瞰图（BEV）审核页面，并支持页面补线、审核记录导出和 CAD DXF 往返编辑。GT 提取和采样在 CPU 上执行；顶视参考采集需要 CARLA 与 GPU。
 
-算法版本为 V4.2 B（XODR V4.1 divider base + semantic 补充）/ V4.1（XODR-only），软件版本为 1.1.1。**目前仅在 CARLA 0.9.16 的 Town10HD/Opt 上完成验证；其他城镇和版本尚未验证。** 默认输出通用完整几何。
+算法版本为 V4.2 B（XODR V4.1 divider base + semantic 补充）/ V4.1（XODR-only），软件版本为 1.1.2。**目前仅在 CARLA 0.9.16 的 Town10HD/Opt 上完成验证；其他城镇和版本尚未验证。** 默认输出通用完整几何。
 
 采集数据不必来自 nuCarla。只需按[通用顶视接口](docs/TOPDOWN_INPUT.md)提供同步 RGB、语义 ID、深度、标定与完整 BEV 变换，并覆盖请求的 BEV 范围。可用 `tools/prepare_topdown.py` 从参考目录生成清单，无需 nuCarla 元数据表。
 

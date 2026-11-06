@@ -36,6 +36,8 @@ python tools/configure.py --from-json /tmp/lanegt-paths.json
 
 配置工具仅要求 `frame_manifest`、`topdown_root` 和 `data_root`。未提供的相机/已有标签目录被设为禁写占位路径，不读取其中数据。`review60` 与 `previous_editor` 默认指向计划中的 `outputs/review1`。自动生成中心线使用 `runtime_python` 的 CPU 几何依赖；不需要 `carla_python` 或 CARLA API。已生成的原版 v2 世界文件可以复用。
 
+`src/postprocessing/project.json` 是可选的本地覆盖文件，不随仓库分发；不存在时后处理使用 `config/paths.local.json` 的默认值。需要覆盖 `base_review`/`canonical_review` 等字段时手动创建该 JSON 文件，并保持未跟踪。
+
 按用途检查：`doctor --topdown-only` 不检查六相机目录；`doctor --centerline provided` 检查已有中心线目录；`doctor --centerline generate` 不要求已有中心线标签；地图/参考一致性由后续 check 检查；`doctor --capture` 额外检查 cases、CARLA 解释器和安装路径；无六相机时同时加 --topdown-only。doctor 不校验依赖能否导入、所有文件内容或传感器是否可用。`check` 还会校验请求的 BEV 覆盖范围。
 
 ## 导入匹配地图资源

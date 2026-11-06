@@ -3,6 +3,7 @@ __pycache__/
 .pytest_cache/
 .venv*/
 config/*.local.json
+src/postprocessing/project.json
 config/capture/runtime_paths.json
 assets/maps/*
 assets/capture/*
